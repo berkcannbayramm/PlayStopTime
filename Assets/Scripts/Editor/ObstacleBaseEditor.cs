@@ -50,7 +50,14 @@ namespace Obstacle
                 return;
             }
 
+            EditorGUI.BeginChangeCheck();
+
             obstacleBase.Color = EditorGUILayout.ColorField("Base Color", obstacleBase.Color);
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                obstacleBase.MeshRenderer.material.color = obstacleBase.Color;
+            }
         }
     }
 }

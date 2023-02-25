@@ -42,14 +42,10 @@ namespace Obstacle
         }
         private void SpinMove()
         {
-            MeshRenderer.material.color = Color;
-
             transform.DORotate(new Vector3(0, 0, SpinObstacle.RotationDirection), TweenSpeed).SetId(this).SetLoops(-1,LoopType.Incremental).SetEase(Ease.Linear);
         }
         private void BlockMove()
         {
-            MeshRenderer.material.color = Color;
-
             transform.DOMoveX(BlockObstacle.TargetPosition.position.x, TweenSpeed).SetId(this).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
         }
     }
