@@ -1,4 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace Obstacle
@@ -17,31 +20,37 @@ namespace Obstacle
                 case ObstacleType.None:
                     break;
                 case ObstacleType.Spin:
+
                     obstacleBase.SpinObstacle.RotationDirection = EditorGUILayout.FloatField("Rotation Direction", obstacleBase.SpinObstacle.RotationDirection);
+
+                    obstacleBase.TweenSpeed = EditorGUILayout.FloatField("Tween Speed", obstacleBase.TweenSpeed);
+
+                    EditorUtils.DrawUILine(Color.gray);
                     
-                    obstacleBase.SpinObstacle.RotationSpeed = EditorGUILayout.FloatField("Rotation Speed", obstacleBase.SpinObstacle.RotationSpeed);
+                    break;
+
+                case ObstacleType.Block:
+
+                    obstacleBase.BlockObstacle.TargetPosition = (Transform)EditorGUILayout.ObjectField("Target Position", obstacleBase.BlockObstacle.TargetPosition, typeof(Transform), true);
+
+                    obstacleBase.TweenSpeed = EditorGUILayout.FloatField("Tween Speed", obstacleBase.TweenSpeed);
 
                     EditorUtils.DrawUILine(Color.gray);
 
-                    obstacleBase.meshRenderer = (MeshRenderer)EditorGUILayout.ObjectField("Mesh Renderer", obstacleBase.meshRenderer, typeof(MeshRenderer), true);
-
-                    if (!obstacleBase.meshRenderer)
-                    {
-                        EditorGUILayout.HelpBox("Select Mesh Renderer!", MessageType.Error);
-                        return;
-                    }
-
-                    EditorGUI.BeginChangeCheck();
-
-                    obstacleBase.Color = EditorGUILayout.ColorField("Base Color", obstacleBase.Color);
-
-                    if (EditorGUI.EndChangeCheck())
-                    {
-                        obstacleBase.meshRenderer.sharedMaterial.color = obstacleBase.Color;
-                    }
-
                     break;
             }
+
+            if (obstacleBase.ObstacleType == ObstacleType.None) return;
+
+            obstacleBase.MeshRenderer = (MeshRenderer)EditorGUILayout.ObjectField("Mesh Renderer", obstacleBase.MeshRenderer, typeof(MeshRenderer), true);
+
+            if (!obstacleBase.MeshRenderer)
+            {
+                EditorGUILayout.HelpBox("Select Mesh Renderer!", MessageType.Error);
+                return;
+            }
+
+            obstacleBase.Color = EditorGUILayout.ColorField("Base Color", obstacleBase.Color);
         }
     }
 }
